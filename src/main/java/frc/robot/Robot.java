@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public static OI m_oi = new OI();
+  public static Motor_Subsystem m_motor = new Motor_Subsystem();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -116,6 +117,8 @@ public class Robot extends TimedRobot {
     {
       System.out.println("Button 1 pressed");
     }
+
+    m_motor.controlSpeed(m_oi.getXAxis(Hand.kLeft));
     
   }
 
