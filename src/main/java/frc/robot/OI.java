@@ -14,13 +14,16 @@ public class OI {
     private GenericHID controller = new GenericHID(0){
     
         @Override
-        public double getY(Hand lHand) {
+        public double getY(Hand hand) {
             return 0;
         }
     
         @Override
-        public double getX(Hand lHand) {
-            return 0;
+        public double getX(Hand hand) {
+            if (hand==Hand.kLeft)
+                return getRawAxis(0);
+            else
+                return getRawAxis(2);
         }
     };
     
@@ -28,9 +31,9 @@ public class OI {
         return controller.getRawButtonPressed(button);
     }
 
-    public double getXAxis()
+    public double getXAxis(Hand hand)
     {
-        return controller.getX();
+        return controller.getX(hand);
     }
 }
 
