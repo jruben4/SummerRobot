@@ -27,6 +27,11 @@ public class OI {
     public boolean getButton(int button){
         return controller.getRawButtonPressed(button);
     }
+
+    public double getXAxis()
+    {
+        return controller.getX();
+    }
 }
 
 

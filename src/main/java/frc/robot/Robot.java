@@ -106,6 +106,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
+    
+    System.out.println(m_oi.getXAxis());
+
     if(m_oi.getButton(1))
     {
       System.out.println("Button 1 pressed");
