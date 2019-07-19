@@ -119,6 +119,7 @@ public class Robot extends TimedRobot {
     }
 
     m_motor.controlSpeed(m_oi.getXAxis(Hand.kLeft));
+    m_motor.controlTalonSpeed(m_oi.getXAxis(Hand.kRight));
     
   }
 
