@@ -8,7 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -23,6 +25,7 @@ public class Motor_Subsystem extends Subsystem {
   // here. Call these from Commands.
 
   public CANSparkMax spark = new CANSparkMax(12, MotorType.kBrushless);
+  public TalonSRX talon = new TalonSRX(11);
 
   @Override
   public void initDefaultCommand() {
@@ -32,6 +35,10 @@ public class Motor_Subsystem extends Subsystem {
 
   public void controlSpeed(double speed){
     spark.set(capSpeed(speed, 0.1));
+  }
+
+  public void controlTalonSpeed(double speed){
+    talon.set(ControlMode.PercentOutput, capSpeed(speed, 0.1)); 
   }
 
   private double capSpeed(double speed, double limit){
