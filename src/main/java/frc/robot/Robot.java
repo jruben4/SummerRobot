@@ -118,8 +118,8 @@ public class Robot extends TimedRobot {
       System.out.println("Button 1 pressed");
     }
 
-    m_motor.controlSpeed(m_oi.getXAxis(Hand.kLeft));
-    m_motor.controlTalonSpeed(m_oi.getXAxis(Hand.kRight));
+    m_motor.controlSpeed(m_oi.getXAxis(Hand.kRight));
+    m_motor.controlTalonSpeed(m_oi.getXAxis(Hand.kLeft));
     
   }
 

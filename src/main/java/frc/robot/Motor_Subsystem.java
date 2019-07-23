@@ -34,7 +34,7 @@ public class Motor_Subsystem extends Subsystem {
   }
 
   public void controlSpeed(double speed){
-    spark.set(capSpeed(speed, 0.1));
+    spark.set(capSpeed(speed, 0.3));
   }
 
   public void controlTalonSpeed(double speed){
