@@ -140,9 +140,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    
-    System.out.println("Left X="+m_oi.getXAxis(Hand.kLeft));
-    System.out.println("Right X="+m_oi.getXAxis(Hand.kRight));
     SmartDashboard.putNumber("Left X", m_oi.getXAxis(Hand.kLeft));
     SmartDashboard.putNumber("Right X", m_oi.getXAxis(Hand.kRight));
 
