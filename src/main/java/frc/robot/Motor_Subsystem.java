@@ -8,12 +8,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.PWMTalonSRX;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import java.lang.Math;
 
 
 
@@ -34,7 +35,7 @@ public class Motor_Subsystem extends Subsystem {
   }
 
   public void controlSpeed(double speed){
-    spark.set(capSpeed(speed, 0.3));
+    spark.set(capSpeed(speed, 0.1));
   }
 
   public void controlTalonSpeed(double speed){
@@ -42,6 +43,7 @@ public class Motor_Subsystem extends Subsystem {
   }
 
   private double capSpeed(double speed, double limit){
+  /*
     if(speed > 0)
     {
       if(speed > limit)
@@ -59,6 +61,14 @@ public class Motor_Subsystem extends Subsystem {
         return speed;
       }
     }
+*/
 
+if(Math.abs(speed) > limit)
+{
+  return limit;
+}
+else{
+  return speed;
+}
   }
 }
