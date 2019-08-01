@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.CanbusDistanceSensor;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,12 +35,41 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
+
+  private double a;
+  private int b;
+
+  public static int distanceSensorLoad = 0;
+  public static double loadSensorSerial;
+  public static double loadSensorPart;
+  public static double loadSensorFirmware;
+  public static byte[] hwdataLoad = new byte[8];
+
+  public static int distanceSensorRocket = 0;
+  public static double rocketSensorSerial;
+  public static double rocketSensorPart;
+  public static double rocketSensorFirmware;
+  public static byte[] hwdataRocket  = new byte[8];
+
   @Override
   public void robotInit() {
     System.out.println("Starting My Code!");
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    hwdataLoad = CanbusDistanceSensor.readHeartbeat(distanceSensorLoad);
+    double[] temp = CanbusDistanceSensor.getSensorInfo(hwdataLoad);
+    loadSensorSerial = temp[0];
+    loadSensorPart = temp[1];
+    loadSensorFirmware = temp[2];
+    SmartDashboard.putNumber("LoadSerial", loadSensorSerial);
+    SmartDashboard.putNumber("LoadPart", loadSensorPart);
+    SmartDashboard.putNumber("LoadFirmware", loadSensorFirmware);
+    double temp1[] = CanbusDistanceSensor.readCalibrationState(distanceSensorLoad);
+    SD.putN("X", temp1[0]);
+    SD.putN("Y", temp1[1]);
+    SD.putN("Offset", temp1[2]);
   }
 
   /**
@@ -111,6 +143,9 @@ public class Robot extends TimedRobot {
     
     System.out.println("Left X="+m_oi.getXAxis(Hand.kLeft));
     System.out.println("Right X="+m_oi.getXAxis(Hand.kRight));
+    SmartDashboard.putNumber("Left X", m_oi.getXAxis(Hand.kLeft));
+    SmartDashboard.putNumber("Right X", m_oi.getXAxis(Hand.kRight));
+
 
 
     if(m_oi.getButton(1))
@@ -120,7 +155,21 @@ public class Robot extends TimedRobot {
 
     m_motor.controlSpeed(m_oi.getXAxis(Hand.kRight));
     m_motor.controlTalonSpeed(m_oi.getXAxis(Hand.kLeft));
-    
+
+    Scheduler.getInstance().run();
+    SmartDashboard.putNumber("TTT", Timer.getFPGATimestamp() - a);
+    a = Timer.getFPGATimestamp();
+    b++;
+    if (b >= 10) {
+      double dist = CanbusDistanceSensor.getDistanceMM(distanceSensorLoad);
+      SD.putN0("DistMM", dist);
+      SD.putN2("DistFt", dist / 304.8);
+      double temp[] = CanbusDistanceSensor.readQuality(distanceSensorLoad);
+      SD.putN0("AmbLight", temp[0]);
+      SD.putN0("StdDev", temp[1]);
+
+      b = 0;
+    }
   }
 
   /**

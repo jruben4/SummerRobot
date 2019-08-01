@@ -15,6 +15,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.lang.Math;
+import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 
 
 
@@ -25,8 +29,8 @@ public class Motor_Subsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public CANSparkMax spark = new CANSparkMax(12, MotorType.kBrushless);
-  public TalonSRX talon = new TalonSRX(11);
+  public CANSparkMax spark = new CANSparkMax(RobotMap.SPARK_CAN_ID, MotorType.kBrushless);
+  public TalonSRX talon = new TalonSRX(RobotMap.TALON_CAN_ID);
 
   @Override
   public void initDefaultCommand() {
@@ -40,6 +44,8 @@ public class Motor_Subsystem extends Subsystem {
 
   public void controlTalonSpeed(double speed){
     talon.set(ControlMode.PercentOutput, capSpeed(speed, 0.1)); 
+    SmartDashboard.putNumber("Talon Output", capSpeed(speed, 0.1));
+
   }
 
   private double capSpeed(double speed, double limit){
@@ -65,10 +71,12 @@ public class Motor_Subsystem extends Subsystem {
 
 if(Math.abs(speed) > limit)
 {
-  return limit;
-}
-else{
-  return speed;
-}
+  if(speed < limit)
+  {
+    return -1*limit;
   }
+  else return limit;
+}
+else return speed;
+}
 }
