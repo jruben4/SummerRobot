@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * 
@@ -160,14 +161,19 @@ data[2] = result[2];
     }
   }
 
-  static double extractValue(byte[] src, int high, int low) {
-    double temp = src[high] * 256;
+
+  public static int extractValue(byte[] src, int high, int low) {
+    int temp = 0;
+    int temp1 = 0;
     int i = 0;
-    for (i = high - 1; i > low; i--) {
-      temp = 256 * (temp + (double) src[i]);
+    temp = (src[high]);
+    for (i = high - 1; i >= low; i--) {
+      temp1 = Byte.toUnsignedInt(src[i]);
+      temp = (temp * 256) + temp1;
     }
-    return temp + src[i];
+    return temp;
   }
+
 
   // https://www.chiefdelphi.com/t/creating-custom-smartdashboard-types-like-pidcommand/162737/8
   @Override

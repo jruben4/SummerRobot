@@ -159,6 +159,7 @@ public class Robot extends TimedRobot {
     b++;
     if (b >= 10) {
       double dist = CanbusDistanceSensor.getDistanceMM(distanceSensorLoad);
+      SmartDashboard.putNumber("RawDistance", dist);
       SD.putN0("DistMM", dist);
       SD.putN2("DistFt", dist / 304.8);
       double temp[] = CanbusDistanceSensor.readQuality(distanceSensorLoad);
