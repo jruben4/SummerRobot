@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
 
   public static OI m_oi = new OI();
   public static Motor_Subsystem m_motor = new Motor_Subsystem();
+  public static CanbusDistanceSensor m_canbus = new CanbusDistanceSensor();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -106,6 +107,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     System.out.println("Teleop Initialized");
+    //Distance loop here (getDistanceMM(int id) function in CanbusDistanceSensor)
+    //dist 1000, motor = 1
+    //dist <50, motor = 0
+    //otherwise linear
+
+    //motor = (dist-50)/1000
+    m_motor.controlSpeed((CanbusDistanceSensor.getDistanceMM(distanceSensorLoad)-50)/1000);
   }
 
   @Override
