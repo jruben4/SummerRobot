@@ -43,8 +43,8 @@ public class Motor_Subsystem extends Subsystem {
   }
 
   public void controlTalonSpeed(double speed){
-    talon.set(ControlMode.PercentOutput, capSpeed(speed, 0.1)); 
-    SmartDashboard.putNumber("Talon Output", capSpeed(speed, 0.1));
+    talon.set(ControlMode.PercentOutput, capSpeed(speed, 0.5)); 
+    SmartDashboard.putNumber("Talon Output", capSpeed(speed, 0.5));
 
   }
 

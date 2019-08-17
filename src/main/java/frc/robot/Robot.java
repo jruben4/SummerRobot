@@ -107,13 +107,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     System.out.println("Teleop Initialized");
-    //Distance loop here (getDistanceMM(int id) function in CanbusDistanceSensor)
-    //dist 1000, motor = 1
-    //dist <50, motor = 0
-    //otherwise linear
-
-    //motor = (dist-50)/1000
-    m_motor.controlSpeed((CanbusDistanceSensor.getDistanceMM(distanceSensorLoad)-50)/1000);
+   
   }
 
   @Override
@@ -158,8 +152,7 @@ public class Robot extends TimedRobot {
       System.out.println("Button 1 pressed");
     }
 
-    m_motor.controlSpeed(m_oi.getXAxis(Hand.kRight));
-    m_motor.controlTalonSpeed(m_oi.getXAxis(Hand.kLeft));
+
 
     Scheduler.getInstance().run();
     SmartDashboard.putNumber("TTT", Timer.getFPGATimestamp() - a);
@@ -167,6 +160,14 @@ public class Robot extends TimedRobot {
     b++;
     if (b >= 10) {
       double dist = CanbusDistanceSensor.getDistanceMM(distanceSensorLoad);
+
+      double tempmotor = (dist-50)/950;
+      if(tempmotor < 0) tempmotor=0;
+  
+      SmartDashboard.putNumber("Tempmotor", tempmotor);
+      m_motor.controlTalonSpeed(tempmotor);
+
+
       SmartDashboard.putNumber("RawDistance", dist);
       SD.putN0("DistMM", dist);
       SD.putN2("DistFt", dist / 304.8);
